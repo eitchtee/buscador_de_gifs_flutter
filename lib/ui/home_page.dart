@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 
+import 'gif_page.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -24,15 +26,6 @@ class _HomePageState extends State<HomePage> {
           "https://api.giphy.com/v1/gifs/search?api_key=tuHI1iaQrWj1iZYnt8LlIr3xSWPeRWPs&q=$_search&limit=19&offset=$_offset&rating=g&lang=pt");
 
     return json.decode(response.body);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _getGifs().then((value) {
-      print(value);
-    });
   }
 
   @override
@@ -110,6 +103,10 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (context, index) {
           if (_search == null || index < snapshot.data["data"].length) {
             return GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => GifPage(snapshot.data["data"][index]))
+                );
+              },
               child: Image.network(
                 snapshot.data["data"][index]["images"]["fixed_height"]["url"],
                 height: 300,
