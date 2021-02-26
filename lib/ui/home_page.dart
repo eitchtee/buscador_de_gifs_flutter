@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:share/share.dart';
 
 import 'gif_page.dart';
 
@@ -103,6 +104,9 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (context, index) {
           if (_search == null || index < snapshot.data["data"].length) {
             return GestureDetector(
+              onLongPress: () {
+                Share.share(snapshot.data["data"][index]["images"]["fixed_height"]["url"]);
+              },
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => GifPage(snapshot.data["data"][index]))
                 );
@@ -116,6 +120,9 @@ class _HomePageState extends State<HomePage> {
           } else {
             return Container(
               child: GestureDetector(
+                onLongPress: () {
+                  Share.share(snapshot.data["data"][index]["images"]["fixed_height"]["url"]);
+                },
                 onTap: () {
                   setState(() {
                     _offset += 19;
